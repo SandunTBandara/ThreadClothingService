@@ -10,13 +10,11 @@ module.exports.controller = (app, io, socket_list) => {
 
     const msg_success = "successfully";
     const msg_fail = "fail";
-    const msg_invalidUser = "invalid username and password";
+    const msg_invalidUser = "Please check your username and password";
     const msg_already_register = "this email already register ";
-    const msg_added_favorite = "add favorite list successfully";
-    const msg_removed_favorite = "removed favorite list successfully";
     const msg_invalid_item = "invalid product item";
-    const msg_add_to_item = "item added into cart successfully ";
-    const msg_remove_to_cart = "item remove form cart successfully"
+    const msg_add_to_item = "your cloth added successfully ";
+    const msg_remove_to_cart = "your cloth  remove form cart successfully"
     const msg_add_address = "address added successfully"
     const msg_update_address = "address updated successfully"
     const msg_remove_address = "address removed successfully"
@@ -110,31 +108,6 @@ module.exports.controller = (app, io, socket_list) => {
         })
     })
 
-    // app.post('/api/app/get_zone_area', (req, res) => {
-    //     helper.Dlog(req.body);
-    //     var reqObj = req.body;
-    //
-    //     db.query("SELECT `zone_id`, `name` FROM `zone_detail` WHERE `status`= ? ;" +
-    //         "SELECT `ad`.`area_id`, `ad`.`zone_id` , `ad`.`name`, `zd`.`name` AS `zone_name`  FROM `area_detail` AS `ad` " +
-    //         "INNER JOIN `zone_detail` AS `zd` ON `zd`.`zone_id` = `ad`.`zone_id` AND `zd`.`status` = '1' " +
-    //         "WHERE `ad`.`status`= ?", ["1", "1"], (err, result) => {
-    //
-    //             if (err) {
-    //                 helper.ThrowHtmlError(err, res);
-    //                 return;
-    //             }
-    //
-    //             result[0].forEach(zObj => {
-    //                 zObj.area_list = result[1].filter((aObj) => {
-    //                     return aObj.zone_id == zObj.zone_id
-    //                 });
-    //             });
-    //
-    //             res.json({ "status": "1", "payload": result[0], "message": msg_success })
-    //
-    //         })
-    //
-    // })
 
     app.post('/api/app/home', (req, res) => {
         helper.Dlog(req.body);
@@ -203,61 +176,6 @@ module.exports.controller = (app, io, socket_list) => {
 
     })
 
-    // app.post('/api/app/add_remove_favorite', (req, res) => {
-    //     helper.Dlog(req.body)
-    //     var reqObj = req.body;
-    //
-    //     checkAccessToken(req.headers, res, (userObj) => {
-    //         helper.CheckParameterValid(res, reqObj, ["prod_id"], () => {
-    //             db.query("SELECT `fav_id`, `prod_id` FROM `favorite_detail` WHERE `prod_id` = ? AND `user_id` = ? AND `status` = '1' ", [reqObj.prod_id, userObj.user_id], (err, result) => {
-    //                 if (err) {
-    //                     helper.ThrowHtmlError(err, res);
-    //                     return
-    //                 }
-    //
-    //                 if (result.length > 0) {
-    //                     // Already add Favorite List To Delete Fave
-    //                     db.query("DELETE FROM `favorite_detail` WHERE `prod_id` = ? AND `user_id` = ? ", [reqObj.prod_id, userObj.user_id], (err, result) => {
-    //
-    //                         if (err) {
-    //                             helper.ThrowHtmlError(err, res);
-    //                             return
-    //                         } else {
-    //                             res.json({
-    //                                 "status": "1",
-    //                                 "message": msg_removed_favorite
-    //                             })
-    //                         }
-    //                     })
-    //
-    //                 } else {
-    //                     // Not Added  Favorite List TO Add
-    //                     db.query("INSERT INTO `favorite_detail`(`prod_id`, `user_id`) VALUES (?,?) ", [
-    //                         reqObj.prod_id, userObj.user_id
-    //                     ], (err, result) => {
-    //                         if (err) {
-    //                             helper.ThrowHtmlError(err, res);
-    //                             return
-    //                         }
-    //
-    //                         if (result) {
-    //                             res.json({
-    //                                 "status": "1",
-    //                                 "message": msg_added_favorite
-    //                             })
-    //                         } else {
-    //                             res.json({
-    //                                 "status": "0",
-    //                                 "message": msg_fail
-    //                             })
-    //                         }
-    //                     })
-    //
-    //                 }
-    //             })
-    //         })
-    //     }, '1')
-    // })
 
     app.post('/api/app/favorite_list', (req, res) => {
         helper.Dlog(req.body)
@@ -1111,228 +1029,6 @@ module.exports.controller = (app, io, socket_list) => {
         })
     })
 
-    // app.post('/api/app/notification_list', (req, res) => {
-    //     helper.Dlog(req.body);
-    //     var reqObj = req.body
-    //
-    //     checkAccessToken(req.headers, res, (userObj) => {
-    //         db.query("SELECT `notification_id`, `ref_id`, `title`, `message`, `notification_type`, `is_read`, `created_date` FROM `notification_detail` WHERE `user_id` = ? AND `status` = 1", [userObj.user_id], (err, result) => {
-    //             if (err) {
-    //                 helper.ThrowHtmlError(err, res);
-    //                 return
-    //             }
-    //
-    //             res.json({
-    //                 "status": "1",
-    //                 "payload": result,
-    //                 "message": msg_success
-    //             })
-    //         })
-    //     }, "1")
-    // })
-
-    // app.post('/api/app/notification_read_all', (req, res) => {
-    //     helper.Dlog(req.body);
-    //     var reqObj = req.body
-    //
-    //     checkAccessToken(req.headers, res, (userObj) => {
-    //         db.query("UPDATE `notification_detail` SET `is_read` = '2', `modify_date` = NOW() WHERE `user_id` = ? AND `status` = 1", [userObj.user_id], (err, result) => {
-    //             if (err) {
-    //                 helper.ThrowHtmlError(err, res);
-    //                 return
-    //             }
-    //
-    //             if (result.affectedRows > 0) {
-    //                 res.json({
-    //                     "status": "1",
-    //                     "message": msg_success
-    //                 })
-    //             } else {
-    //                 res.json({
-    //                     "status": "0",
-    //                     "message": msg_fail
-    //                 })
-    //             }
-    //
-    //         })
-    //     }, "1")
-    // })
-
-    // app.post('/api/app/update_profile', (req, res) => {
-    //     helper.Dlog(req.body);
-    //     var reqObj = req.body
-    //
-    //     checkAccessToken(req.headers, res, (userObj) => {
-    //         helper.CheckParameterValid(res, reqObj, ["username", "name", "mobile", "mobile_code"], () => {
-    //             db.query("UPDATE `user_detail` SET `username`=?,`name`=?,`mobile`=?,`mobile_code`=?,`modify_date`=NOW() WHERE `user_id` = ? AND `status` = 1", [reqObj.username, reqObj.name, reqObj.mobile, reqObj.mobile_code, userObj.user_id], (err, result) => {
-    //                 if (err) {
-    //                     helper.ThrowHtmlError(err, res)
-    //                     return
-    //                 }
-    //
-    //                 if (result.affectedRows > 0) {
-    //                     db.query('SELECT `user_id`, `username`, `name`, `email`, `mobile`, `mobile_code`, `password`, `auth_token`, `status`, `created_date` FROM `user_detail` WHERE `user_id` = ? AND `status` = "1" ', [userObj.user_id], (err, result) => {
-    //
-    //                         if (err) {
-    //                             helper.ThrowHtmlError(err, res);
-    //                             return
-    //                         }
-    //
-    //                         if (result.length > 0) {
-    //                             res.json({ "status": "1", "payload": result[0], "message": msg_success })
-    //                         } else {
-    //                             res.json({ "status": "0", "message": msg_invalidUser })
-    //                         }
-    //                     })
-    //                 } else {
-    //                     res.json({
-    //                         "status": "0",
-    //                         "message": msg_fail
-    //                     })
-    //                 }
-    //             })
-    //         })
-    //
-    //     })
-    // })
-
-    // app.post('/api/app/change_password', (req, res) => {
-    //     helper.Dlog(req.body);
-    //     var reqObj = req.body
-    //
-    //     checkAccessToken(req.headers, res, (userObj) => {
-    //         helper.CheckParameterValid(res, reqObj, ["current_password", "new_password"], () => {
-    //             db.query("UPDATE `user_detail` SET `password`=?, `modify_date`=NOW() WHERE `user_id` = ? AND `password` = ?", [reqObj.new_password, userObj.user_id, reqObj.current_password], (err, result) => {
-    //                 if (err) {
-    //                     helper.ThrowHtmlError(err, res)
-    //                     return
-    //                 }
-    //
-    //                 if (result.affectedRows > 0) {
-    //                     res.json({ "status": "1", "message": msg_success })
-    //                 } else {
-    //                     res.json({
-    //                         "status": "0",
-    //                         "message": msg_fail
-    //                     })
-    //                 }
-    //             })
-    //         })
-    //
-    //     },"1")
-    // })
-
-    // app.post('/api/app/forgot_password_request', (req, res) => {
-    //     helper.Dlog(req.body);
-    //     var reqObj = req.body
-    //
-    //     helper.CheckParameterValid(res, reqObj, ["email"], () => {
-    //         db.query("SELECT `user_id` FROM `user_detail` WHERE `email` = ? ", [reqObj.email], (err, result) => {
-    //             if (err) {
-    //                 helper.ThrowHtmlError(err, res)
-    //                 return
-    //             }
-    //
-    //             if (result.length > 0) {
-    //                 var reset_code = helper.createNumber()
-    //                 db.query("UPDATE `user_detail` SET `reset_code` = ? WHERE `user_id` = ? ", [reset_code, result[0].user_id], (err, uResult) => {
-    //                     if (err) {
-    //                         helper.ThrowHtmlError(err, res)
-    //                         return
-    //                     }
-    //
-    //
-    //                     if (uResult.affectedRows > 0) {
-    //                         res.json({ "status": "1", "message": msg_success })
-    //                     } else {
-    //                         res.json({
-    //                             "status": "0",
-    //                             "message": msg_fail
-    //                         })
-    //                     }
-    //                 })
-    //
-    //             } else {
-    //                 res.json({
-    //                     "status": "0",
-    //                     "message": "user not exits"
-    //                 })
-    //             }
-    //         })
-    //     })
-    // })
-
-
-    // app.post('/api/app/forgot_password_verify', (req, res) => {
-    //     helper.Dlog(req.body);
-    //     var reqObj = req.body
-    //
-    //     helper.CheckParameterValid(res, reqObj, ["email", "reset_code"], () => {
-    //         db.query("SELECT `user_id` FROM `user_detail` WHERE `email` = ? AND `reset_code` ", [reqObj.email, reqObj.reset_code], (err, result) => {
-    //             if (err) {
-    //                 helper.ThrowHtmlError(err, res)
-    //                 return
-    //             }
-    //
-    //             if (result.length > 0) {
-    //                 var reset_code = helper.createNumber()
-    //                 db.query("UPDATE `user_detail` SET `reset_code` = ? WHERE `user_id` = ? ", [reset_code, result[0].user_id], (err, uResult) => {
-    //                     if (err) {
-    //                         helper.ThrowHtmlError(err, res)
-    //                         return
-    //                     }
-    //
-    //
-    //                     if (uResult.affectedRows > 0) {
-    //                         res.json({ "status": "1", "payload": { "user_id": result[0].user_id, "reset_code": reset_code }, "message": msg_success })
-    //                     } else {
-    //                         res.json({
-    //                             "status": "0",
-    //                             "message": msg_fail
-    //                         })
-    //                     }
-    //                 })
-    //
-    //             } else {
-    //                 res.json({
-    //                     "status": "0",
-    //                     "message": "user not exits"
-    //                 })
-    //             }
-    //         })
-    //     })
-    //
-    //
-    // })
-
-    // app.post('/api/app/forgot_password_set_password', (req, res) => {
-    //     helper.Dlog(req.body);
-    //     var reqObj = req.body
-    //
-    //     helper.CheckParameterValid(res, reqObj, ["user_id", "reset_code", "new_password"], () => {
-    //
-    //         var reset_code = helper.createNumber()
-    //         db.query("UPDATE `user_detail` SET `password` = ? , `reset_code` = ?  WHERE `user_id` = ? AND `reset_code` = ? ", [reqObj.new_password, reset_code, reqObj.user_id, reqObj.reset_code], (err, uResult) => {
-    //             if (err) {
-    //                 helper.ThrowHtmlError(err, res)
-    //                 return
-    //             }
-    //
-    //
-    //             if (uResult.affectedRows > 0) {
-    //                 res.json({ "status": "1", "message": "update password successfully" })
-    //             } else {
-    //                 res.json({
-    //                     "status": "0",
-    //                     "message": msg_fail
-    //                 })
-    //             }
-    //         })
-    //     })
-    //
-    //
-    // })
-
 
     function getProductDetail(res, prod_id, user_id) {
         db.query("SELECT `pd`.`prod_id`, `pd`.`cat_id`, `pd`.`brand_id`, `pd`.`type_id`, `pd`.`name`, `pd`.`detail`, `pd`.`unit_name`, `pd`.`unit_value`, `pd`.`price`, `pd`.`created_date`, `pd`.`modify_date`, `cd`.`cat_name`, ( CASE WHEN `fd`.`fav_id` IS NOT NULL THEN 1 ELSE 0 END ) AS `is_fav` , IFNULL( `bd`.`brand_name`, '' ) AS `brand_name` , `td`.`type_name`, IFNULL(`od`.`price`, `pd`.`price` ) as `offer_price`, (CASE WHEN `imd`.`image` != '' THEN  CONCAT( '" + image_base_url + "' ,'', `imd`.`image` ) ELSE '' END) AS `image`, IFNULL(`od`.`start_date`,'') as `start_date`, IFNULL(`od`.`end_date`,'') as `end_date`, (CASE WHEN `od`.`offer_id` IS NOT NULL THEN 1 ELSE 0 END) AS `is_offer_active` FROM `product_detail` AS  `pd` " +
@@ -1343,8 +1039,6 @@ module.exports.controller = (app, io, socket_list) => {
             "LEFT JOIN `offer_detail` AS `od` ON `pd`.`prod_id` = `od`.`prod_id` AND `od`.`status` = 1 AND `od`.`start_date` <= NOW() AND `od`.`end_date` >= NOW() " +
             "INNER JOIN `type_detail` AS `td` ON `pd`.`type_id` = `td`.`type_id` " +
             " WHERE `pd`.`status` = ? AND `pd`.`prod_id` = ? GROUP BY `pd`.`prod_id`; " +
-
-            " SELECT `nutrition_id`, `prod_id`, `nutrition_name`, `nutrition_value` FROM `nutrition_detail` WHERE `prod_id` = ? AND `status` = ? ORDER BY `nutrition_name`;" +
 
             "SELECT `img_id`, `prod_id`, (CASE WHEN `image` != '' THEN  CONCAT( '" + image_base_url + "' ,'', `image` ) ELSE '' END) AS `image`  FROM `image_detail` WHERE `prod_id` = ? AND `status` = ? ", [
 
